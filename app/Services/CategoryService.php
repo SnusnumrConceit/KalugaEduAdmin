@@ -13,7 +13,7 @@ class CategoryService
 {
     public function index(Request $request) : JsonResponse
     {
-        $categories = Category::paginate();
+        $categories = (isset($request->page)) ? Category::paginate() : Category::all();
 
         return response()->json([
             'categories' => $categories
