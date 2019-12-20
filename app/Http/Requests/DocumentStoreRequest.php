@@ -29,7 +29,7 @@ class DocumentStoreRequest extends FormRequest
         return [
             'name' => 'required|min:3|max:255|string',
             'url' => 'required|min:10|max:255|string',
-            'category_id' => 'nullable|exists:category,id'
+            'category_id' => 'nullable|exists:categories,id'
         ];
     }
 

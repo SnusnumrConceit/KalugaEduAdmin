@@ -2,19 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocumentStoreRequest;
 use App\Models\Document;
+use App\Services\DocumentService;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
+    protected $document;
+
+    public function __construct(DocumentService $document)
+    {
+        $this->document = $document;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $this->document->index($request);
     }
 
     /**
@@ -33,9 +42,9 @@ class DocumentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DocumentStoreRequest $request)
     {
-        //
+        return $this->document->store($request);
     }
 
     /**
@@ -46,7 +55,7 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
-        //
+        return $this->document->show($document);
     }
 
     /**
@@ -57,7 +66,7 @@ class DocumentController extends Controller
      */
     public function edit(Document $document)
     {
-        //
+        return $this->document->edit($document);
     }
 
     /**
@@ -67,9 +76,9 @@ class DocumentController extends Controller
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Document $document)
+    public function update(DocumentStoreRequest $request, Document $document)
     {
-        //
+        return $this->document->update($request, $document);
     }
 
     /**
@@ -80,6 +89,11 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
-        //
+        return $this->document->destroy($document);
+    }
+
+    public function search(Request $request)
+    {
+        return $this->document->search($request);
     }
 }

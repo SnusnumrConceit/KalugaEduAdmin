@@ -93,4 +93,9 @@ class CategoryController extends Controller
     {
         return $this->category->destroy($category);
     }
+
+    public function search(Request $request) : JsonResponse
+    {
+        return $this->category->search($request);
+    }
 }

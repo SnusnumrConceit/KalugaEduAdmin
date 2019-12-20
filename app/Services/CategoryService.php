@@ -55,7 +55,7 @@ class CategoryService
     public function show(Category $category) : JsonResponse
     {
         return response()->json([
-            'category' => $category->with('parent')->findOrFail($category->id)
+            'category' => $category->with(['parent', 'documents'])->findOrFail($category->id)
         ], 200);
     }
 
@@ -75,6 +75,18 @@ class CategoryService
         return response()->json([
             'status' => 'success',
             'msg' => __('category_msg_success_delete')
+        ], 200);
+    }
+
+    /** поиск категории */
+    public function search(Request $request) : JsonResponse
+    {
+        $categories = Category::when(! empty($request->keyword), function ($q) use ($request) {
+           return $q->where('name', 'LIKE', $request->keyword . '%');
+        })->paginate();
+
+        return response()->json([
+            'categories' => $categories
         ], 200);
     }
 

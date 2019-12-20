@@ -15,9 +15,13 @@ class Category extends Model
         'updated_at' => 'datetime:d-m-Y H:i:s'
     ];
 
-    /** проверить, работает ли связь */
     public function parent()
     {
         return $this->hasOne($this, 'id', 'parent_id');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'category_id', 'id');
     }
 }

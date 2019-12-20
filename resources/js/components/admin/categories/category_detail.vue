@@ -42,10 +42,22 @@
                     Документы
                 </label>
 
-                <!-- Исправить на router-link -->
-                <span v-for="doc in category.documents">
-                {{ doc.name }}
-            </span>
+                <div class="modal__documents-container" v-if="category.documents.length">
+                    <!-- Исправить на router-link -->
+                    <div class="row" v-for="(doc, index) in category.documents" :key="doc.id">
+                        <div class="col-10">
+                        <span>
+                            {{ doc.name }}
+                        </span>
+                        </div>
+                        <div class="col-2">
+                            <i class="pe-7s-settings text-success pointer icons"
+                               @click="$router.push({path: toDocEdit(doc.id)})"
+                               v-tooltip="`Редактировать ${doc.name}`">
+                            </i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -80,6 +92,10 @@
 
       hasParent() {
         return this.category.parent_id !== null;
+      },
+
+      toDocEdit() {
+        return id => `/admin/documents/${id}`;
       }
     },
 

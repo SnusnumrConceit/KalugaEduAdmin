@@ -24,5 +24,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('categories', 'CategoryController');
+Route::get('/admin/categories/search', 'CategoryController@search');
 
 Route::resource('documents', 'DocumentController');
+Route::get('/admin/documents/search', 'DocumentController@search');

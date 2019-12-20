@@ -1,5 +1,5 @@
 <template>
-    <div class="card mx-auto h-100 p-5 w-50 mt-4">
+    <div class="card w-50 h-100 mx-auto mt-4 p-5">
         <h2>
             <span v-if="hasID">
                 Редактирование
@@ -8,33 +8,30 @@
                 Создание
             </span>
         </h2>
-
         <div class="form-group">
             <label for="">
-                Название<sup>*</sup>
+                Наименование <sup>*</sup>
             </label>
-            <input type="text" class="form-control" v-model="category.name">
+            <input type="text"
+                   class="form-control"
+                   v-model="document.name">
         </div>
         <div class="form-group">
             <label for="">
-                Родительская категория
+                Категория
             </label>
-            <v-select v-model="category.parent_id" :options="categories" label="name" :reduce="category => category.id">
-
+            <v-select :reduce="category => category.id"
+                      v-model="document.category_id"
+                      :options="categories"
+                      label="name">
             </v-select>
-            <!--<select class="form-control" v-model="category.parent_id">-->
-                <!--<option :value="categ.id" v-for="categ in categories">-->
-                    <!--{{ categ.name }}-->
-                <!--</option>-->
-            <!--</select>-->
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="! document.url.length">
             <label for="">
-                Псевдоним
+                Документ
             </label>
-            <input type="text" class="form-control" v-model="category.slug">
+            <vue-dropzone ref="doc_dropzone" id="dropzone" :options="dropzone_options"></vue-dropzone>
         </div>
-
         <div class="form-group">
             <button class="btn btn-outline-success" @click="save">
                 Добавить
@@ -47,43 +44,66 @@
 </template>
 
 <script>
+
+  import dropzone_options from '../../../mixins/dropzone_options';
+  import vue2Dropzone from 'vue2-dropzone'
+  import 'vue2-dropzone/dist/vue2Dropzone.min.css'
   import swal_error from '../../../mixins/swal'
 
   export default {
-    name: "category_form",
+    name: "document_form",
+
+    components: {
+      vueDropzone: vue2Dropzone
+    },
 
     mixins: [
+      dropzone_options,
       swal_error
     ],
 
     data() {
       return {
-        category: {
+        document: {
           name: '',
-          parent_id: null,
-          slug: null
+          url: '',
+          category_id: null
         },
 
-        /** список категорий для формы **/
         categories: []
       }
     },
 
     computed: {
-        hasID() {
-          return this.$route.params.id;
-        }
+      hasID() {
+        return this.$route.params.id;
+      },
     },
 
     methods: {
+
+      async loadDoc() {
+        const response = await axios.get(`/documents/${this.hasID}/edit`);
+
+        switch (response.status) {
+          case 200:
+            this.document = response.data.doc;
+            break;
+
+          default:
+            this.showErrorSwal(response.data.error);
+            break;
+        }
+      },
+
       async save() {
-        if (this.category.id === undefined) {
-          const response = await axios.post('/categories', {...this.category});
+        if (! this.hasID) {
+          const response = await axios.post('/documents', {...this.document});
 
           switch (response.data.status) {
             case 'success':
               this.$swal('Успешно!', response.data.msg, 'success');
-              this.$router.push({ name: 'AdminCategories'});
+              this.$router.push({name: 'AdminDocuments'});
               break;
 
             case 'error':
@@ -91,32 +111,18 @@
               break;
           }
         } else {
-          const response = await axios.patch(`/categories/${this.category.id}`, {...this.category});
+          const response = await axios.patch(`/documents/${this.hasID}`, {...this.document});
 
           switch (response.data.status) {
             case 'success':
               this.$swal('Успешно!', response.data.msg, 'success');
-              this.$router.push({ name: 'AdminCategories'});
+              this.$router.push({name: 'AdminDocuments'});
               break;
 
             case 'error':
               this.showErrorSwal(response.data.error);
               break;
           }
-        }
-      },
-
-      async loadCategory() {
-        const response = await axios.get(`/categories/${this.$route.params.id}/edit`);
-
-        switch (response.status) {
-          case 200:
-            this.category = response.data.category;
-            break;
-
-          default:
-            this.showErrorSwal(response.data.msg);
-            break;
         }
       },
 
@@ -129,19 +135,19 @@
             break;
 
           default:
-            this.showErrorSwal(response.data.msg);
+            this.$swal('Ошибка!', '', 'error');
             break;
         }
       }
     },
 
-    mounted() {
+    created() {
       if (this.hasID) {
-        this.loadCategory();
+       this.loadDoc();
       }
+
       this.loadCategories();
     }
-
 
   }
 </script>

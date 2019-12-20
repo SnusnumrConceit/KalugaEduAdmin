@@ -3,6 +3,10 @@
   "category_msg_success_update": "Категория успешно обновлена!",
   "category_msg_success_delete": "Категория успешно удалена!",
 
+  "document_msg_success_create": "Документ успешно создан!",
+  "document_msg_success_update": "Документ успешно обновлен!",
+  "document_msg_success_delete": "Документ успешно удален!",
+
   "form_request_invalid_data_msg": "Проверьте корректность данных",
   "form_request_auth_error": "Вы не авторизованы в системе"
 }
