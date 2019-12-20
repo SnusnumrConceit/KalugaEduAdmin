@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <modal name="category_detail" adaptive draggable scrollable height="auto">
         <div class="modal-header">
             {{ category.name }}
         </div>
@@ -53,23 +53,21 @@
                 Закрыть
             </button>
         </div>
-    </div>
+    </modal>
 </template>
 
 <script>
   export default {
     name: "category_detail",
 
-    props: {
-        id: {
-          value: 1,
-          type: 'Integer'
-        }
-    },
-
     data() {
       return {
-        category: {},
+        category: {
+          name: '',
+          parent_id: null,
+          slug: null,
+          documents: []
+        },
 
         docs: []
       }
@@ -87,16 +85,26 @@
 
     methods: {
       close() {
-        this.category = {};
-        this.$modal.close();
+        this.category = {
+          name: '',
+          parent_id: null,
+          slug: null,
+          documents: []
+        };
+        this.$modal.hide('category_detail');
       },
 
-      async loadCategoryDetail() {
-        const response = await axios.get(`/categories/${this.id}`);
+      show() {
+        this.$modal.show('category_detail');
+      },
+
+      async loadCategoryDetail(e) {
+        const response = await axios.get(`/categories/${e.id}`);
 
         switch (response.status) {
           case 200:
             this.category = response.data.category;
+            this.show();
             break;
 
           default:
@@ -122,7 +130,7 @@
     },
 
     mounted() {
-      this.loadCategoryDetail();
+      this.$parent.$on('show_category_detail', this.loadCategoryDetail);
     }
   }
 </script>

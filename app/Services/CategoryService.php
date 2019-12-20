@@ -13,7 +13,8 @@ class CategoryService
 {
     public function index(Request $request) : JsonResponse
     {
-        $categories = (isset($request->page)) ? Category::paginate() : Category::all();
+        $categories = Category::with('parent');
+        $categories = (isset($request->page)) ? $categories->paginate() : $categories->get();
 
         return response()->json([
             'categories' => $categories
@@ -34,7 +35,8 @@ class CategoryService
         $category = Category::create($request->validated());
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'msg' => __('category_msg_success_create')
         ], 200);
     }
 
@@ -44,20 +46,21 @@ class CategoryService
         $category->update($request->validated());
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'msg' => __('category_msg_success_update')
         ], 200);
     }
 
     /** получение детальной информации для просмотра */
-    public function show(Category $category)
+    public function show(Category $category) : JsonResponse
     {
         return response()->json([
-            'category' => $category
+            'category' => $category->with('parent')->findOrFail($category->id)
         ], 200);
     }
 
     /** получение информации для формы добавления */
-    public function edit(Category $category)
+    public function edit(Category $category) : JsonResponse
     {
         return response()->json([
             'category' => $category
@@ -65,12 +68,13 @@ class CategoryService
     }
 
     /** удаление категории */
-    public function destroy(Category $category)
+    public function destroy(Category $category) : JsonResponse
     {
         $category->delete($category->id);
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'msg' => __('category_msg_success_delete')
         ], 200);
     }
 

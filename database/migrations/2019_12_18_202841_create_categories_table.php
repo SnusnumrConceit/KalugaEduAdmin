@@ -24,6 +24,7 @@ class CreateCategoriesTable extends Migration
                 ->nullable()
                 ->comment('id родительской категории');
             $table->string('slug')
+                ->nullable()
                 ->comment('ссылка на уникальные таблицы ддля категорий');
             $table->timestamps();
         });

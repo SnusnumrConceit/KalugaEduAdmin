@@ -10,9 +10,14 @@ class Category extends Model
 
     protected $perPage = 10;
 
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y H:i:s',
+        'updated_at' => 'datetime:d-m-Y H:i:s'
+    ];
+
     /** проверить, работает ли связь */
     public function parent()
     {
-        return $this->hasOne($this, 'parent_id', 'id');
+        return $this->hasOne($this, 'id', 'parent_id');
     }
 }

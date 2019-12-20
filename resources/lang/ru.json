@@ -1,4 +1,8 @@
 {
+  "category_msg_success_create": "Категория успешно создана!",
+  "category_msg_success_update": "Категория успешно обновлена!",
+  "category_msg_success_delete": "Категория успешно удалена!",
+
   "form_request_invalid_data_msg": "Проверьте корректность данных",
   "form_request_auth_error": "Вы не авторизованы в системе"
 }

@@ -32,6 +32,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 /** SwAl Component **/
 import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.use(VueSweetalert2);
 
@@ -39,6 +40,18 @@ Vue.use(VueSweetalert2);
 import VModal from 'vue-js-modal';
 
 Vue.use(VModal);
+
+/** Tooltip Component **/
+
+import VTooltip from 'v-tooltip';
+
+Vue.use(VTooltip);
+
+/** Vue-Select Component **/
+import vSelect from 'vue-select';
+import "vue-select/src/scss/vue-select.scss";
+
+Vue.component('v-select', vSelect);
 
 /** Pagination Component **/
 import Paginate from 'vuejs-paginate';

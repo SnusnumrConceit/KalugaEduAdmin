@@ -14,13 +14,13 @@
         <!-- Styles -->
         <style>
 
-            @font-face {
-                font-family: "Pe-icon-7-stroke";
-                src: url({{ public_path('/fonts/pe7-icons/Pe-icon-7-stroke.svg') }}) format("svg");
-                     url({{ public_path('/fonts/pe7-icons/Pe-icon-7-stroke.woff') }}) format("woff");
-                     url({{ public_path('/fonts/pe7-icons/Pe-icon-7-stroke.ttf') }}) format("ttf");
-                     url({{ public_path('/fonts/pe7-icons/Pe-icon-7-stroke.eot') }}) format("eot");
-            }
+            {{--@font-face {--}}
+                {{--font-family: "Pe-icon-7-stroke";--}}
+                {{--src: url({{ public_path('/fonts/pe7-icons/Pe-icon-7-stroke.svg') }}) format("svg");--}}
+                     {{--url({{ public_path('/fonts/pe7-icons/Pe-icon-7-stroke.woff') }}) format("woff");--}}
+                     {{--url({{ public_path('/fonts/pe7-icons/Pe-icon-7-stroke.ttf') }}) format("ttf");--}}
+                     {{--url({{ public_path('/fonts/pe7-icons/Pe-icon-7-stroke.eot') }}) format("eot");--}}
+            {{--}--}}
             html, body {
                 background-color: #fff;
                 color: #636b6f;
