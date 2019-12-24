@@ -74,8 +74,13 @@
         </style>
     </head>
     <body>
-        <div id="app">
-            <router-view></router-view>
+        <div id="app" class="container-fluid row">
+            <navigation>
+
+            </navigation>
+            <div class="col-md-8 col-lg-10 bg-light">
+                <router-view></router-view>
+            </div>
         </div>
         <script src="{{ asset('/js/app.js') }}"></script>
     </body>

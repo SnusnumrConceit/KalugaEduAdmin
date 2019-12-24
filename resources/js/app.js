@@ -67,7 +67,13 @@ import {routes} from './router';
 
 const router = new VueRouter({routes});
 
+import Navigation from './components/base/navigation'
+
 const app = new Vue({
   el: '#app',
-  router
+  router,
+
+  components: {
+    Navigation
+  }
 });
