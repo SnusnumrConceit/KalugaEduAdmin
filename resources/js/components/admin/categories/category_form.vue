@@ -1,5 +1,5 @@
 <template>
-    <div class="card mx-auto h-100 p-5 w-50 mt-4">
+    <div class="card mx-auto p-5 w-50 mt-4">
         <h2>
             <span v-if="hasID">
                 Редактирование

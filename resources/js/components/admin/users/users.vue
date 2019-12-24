@@ -84,12 +84,17 @@
         <div class="alert alert-info mt-4" v-else>
             Не найдено ни одного пользователя
         </div>
+
+        <user-detail>
+
+        </user-detail>
     </div>
 </template>
 
 <script>
   import debounce from '../../../debounce';
   import swal_error from '../../../mixins/swal';
+  import UserDetail from './user_detail';
 
   export default {
     name: "users",
@@ -97,6 +102,10 @@
     mixins: [
       swal_error
     ],
+
+    components: {
+      UserDetail
+    },
 
     data() {
       return {
