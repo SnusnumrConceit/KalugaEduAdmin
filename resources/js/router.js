@@ -5,6 +5,9 @@ import AdminCategoryForm from './components/admin/categories/category_form';
 import AdminDocuments from './components/admin/documents/documents';
 import AdminDocumentForm from './components/admin/documents/document_form';
 
+import AdminUsers from './components/admin/users/users';
+import AdminUserForm from './components/admin/users/user_form';
+
 export const routes = [
   {
     path: '/admin/categories',
@@ -41,5 +44,24 @@ export const routes = [
     path: '/admin/documents/:id',
     name: 'AdminDocumentForm',
     component: AdminDocumentForm
+  },
+
+  /** Пользователи в админке */
+  {
+    path: '/admin/users',
+    name: 'AdminUsers',
+    component: AdminUsers
+  },
+
+  {
+    path: '/admin/users/create',
+    name: 'AdminUserForm',
+    component: AdminUserForm
+  },
+
+  {
+    path: '/admin/users/:id',
+    name: 'AdminUserForm',
+    component: AdminUserForm
   }
 ];

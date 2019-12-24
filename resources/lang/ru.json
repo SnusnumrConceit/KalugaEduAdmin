@@ -7,6 +7,10 @@
   "document_msg_success_update": "Документ успешно обновлен!",
   "document_msg_success_delete": "Документ успешно удален!",
 
+  "user_msg_success_create": "Пользователь успешно создан!",
+  "user_msg_success_update": "Пользователь успешно обновлен!",
+  "user_msg_success_delete": "Пользователь успешно удален!",
+
   "form_request_invalid_data_msg": "Проверьте корректность данных",
   "form_request_auth_error": "Вы не авторизованы в системе"
 }

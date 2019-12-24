@@ -135,7 +135,7 @@
             break;
 
           default:
-            this.$swal('Ошибка!', '', 'error');
+            this.showErrorSwal(response.data.error);
             break;
         }
       }

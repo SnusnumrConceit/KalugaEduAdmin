@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Document;
+use App\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,7 @@ class RouteServiceProvider extends ServiceProvider
         //
         $this->model('categories', Category::class);
         $this->model('documents', Document::class);
+        $this->model('users', User::class);
         parent::boot();
     }
 

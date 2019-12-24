@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid mt-4">
-        <div class="category_functional row">
+        <div class="user_functional row">
             <div class="col-3">
                 <button class="btn btn-outline-success" @click="$router.push({path: toCreate})">
                     <i class="pe-7s-plus"></i> Добавить
@@ -10,47 +10,55 @@
                 <input class="form-control" v-model="search.keyword" placeholder="Поиск">
             </div>
         </div>
-        <div class="category_content mt-4" v-if="categories.length">
+        <div class="user_content mt-4" v-if="users.length">
             <table class="table table-striped table-responsive-xs">
                 <thead>
-                    <th>
-                        Название
-                    </th>
-                    <th>
-                        Родитель
-                    </th>
-                    <th></th>
+                <th>
+                    Логин
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Роль
+                </th>
+                <th></th>
                 </thead>
                 <tbody>
-                    <tr v-for="(category, index) in categories" :key="category.id">
+                <tr v-for="(user, index) in users" :key="user.id">
                     <td>
                         <!-- по клику вызывать модалку -->
                         <span>
-                            {{ category.name }}
+                            {{ user.login }}
                         </span>
                     </td>
                     <td>
-                        <span v-if="category.parent_id !== null">
-                            {{ category.parent.name }}
+                        <!-- по клику вызывать модалку -->
+                        <span>
+                            {{ user.email }}
                         </span>
-                        <span v-else>
-                            <i>Нет</i>
-                        </span>
+                    </td>
+                    <td>
+                        <!--<span v-if="user.role !== null">-->
+                            <!--{{ user.role.name }}-->
+                        <!--</span>-->
+                        <!--<span v-else>-->
+                            <!--<i>Нет</i>-->
+                        <!--</span>-->
                     </td>
                     <!-- иконки -->
                     <td>
                         <i class="pe-7s-note2 text-info pointer icons"
-                           @click="$emit('show_category_detail', {id: category.id})"
+                           @click="$emit('show_user_detail', {id: user.id})"
                            v-tooltip="'Детали'">
-
                         </i>
                         <i class="pe-7s-settings text-success pointer icons"
-                           @click="$router.push({path: toEdit(category.id)})"
-                           v-tooltip="`Редактировать ${category.name}`">
+                           @click="$router.push({path: toEdit(user.id)})"
+                           v-tooltip="`Редактировать ${user.login}`">
                         </i>
                         <i class="pe-7s-trash text-danger pointer icons"
-                           @click="destroy(category.id, index)"
-                           v-tooltip="`Удалить ${category.name}`">
+                           @click="destroy(user.id, index)"
+                           v-tooltip="`Удалить ${user.login}`">
                         </i>
                     </td>
                 </tr>
@@ -74,30 +82,17 @@
             </paginate>
         </div>
         <div class="alert alert-info mt-4" v-else>
-            Не найдено ни одной категории
+            Не найдено ни одного пользователя
         </div>
-
-        <!--<VueDocPreview :value="docValue" :type="docType" />-->
-
-        <category-detail>
-
-        </category-detail>
     </div>
 </template>
 
 <script>
-  import CategoryDetail from './category_detail';
   import debounce from '../../../debounce';
-  import swal_error from '../../../mixins/swal'
-  import VueDocPreview from 'vue-doc-preview'
+  import swal_error from '../../../mixins/swal';
 
   export default {
-    name: "categories",
-
-    components: {
-      "category-detail": CategoryDetail,
-      VueDocPreview
-    },
+    name: "users",
 
     mixins: [
       swal_error
@@ -105,7 +100,7 @@
 
     data() {
       return {
-        categories: [],
+        users: [],
 
         search: {
           keyword: '',
@@ -116,17 +111,17 @@
         pagination: {
           page: 1,
           last_page: 1
-        }
+        },
       }
     },
 
     computed: {
       toCreate() {
-        return '/admin/categories/create';
+        return '/admin/users/create';
       },
 
       toEdit() {
-        return id => `/admin/categories/${id}`;
+        return id => `/admin/users/${id}`;
       },
 
       isSearching() {
@@ -136,7 +131,7 @@
 
     methods: {
       async loadData() {
-        const response = await axios.get('/categories', {
+        const response = await axios.get('/users', {
           params: {
             page: this.pagination.page
           }
@@ -144,34 +139,34 @@
 
         switch (response.status) {
           case 200:
-            this.categories = response.data.categories.data;
-            this.pagination.last_page = response.data.categories.last_page;
+            this.users = response.data.users.data;
+            this.pagination.last_page = response.data.users.last_page;
             break;
 
-          case 'error':
-            this.showErrorSwal(response.data.msg);
+          default:
+            console.error(response.data);
+            this.showErrorSwal(response.data.error);
             break;
         }
       },
 
       async searchData() {
-        const response = await axios.get('/admin/categories/search', {
+        const response = await axios.get('/admin/users/search', {
           params: {
             page: this.pagination.page,
             keyword: this.search.keyword
-            /** дописать ещё параметры **/
           }
         });
 
         switch (response.status) {
           case 200:
-            this.categories = response.data.categories.data;
-            this.pagination.last_page = response.data.categories.last_page;
+            this.users = response.data.users.data;
+            this.pagination.last_page = response.data.users.last_page;
             break;
 
           default:
             console.error(response.data);
-            this.showErrorSwal(response.data.msg);
+            this.showErrorSwal(response.data.error);
             break;
         }
       },
@@ -179,7 +174,7 @@
       destroy(id, index) {
         this.$swal.fire({
           type: 'question',
-          title: `Вы уверены что хотите удалить категорию ${this.categories[index].name}`,
+          title: `Вы уверены что хотите удалить пользовтеля ${this.users[index].login}`,
           text: "Данное действие необратимо",
           icon: 'warning',
           showCancelButton: true,
@@ -189,7 +184,7 @@
           cancelButtonText: 'Отмена'
         }).then((result) => {
           if (result.value) {
-            const response = axios.delete(`/categories/${id}`)
+            const response = axios.delete(`/users/${id}`)
                 .then(response => {
                   switch (response.data.status) {
                     case 'success':
@@ -198,12 +193,12 @@
                       break;
 
                     case 'error':
-                      this.showErrorSwal(response.data.msg);
+                      this.showErrorSwal(response.data.error);
                       break;
                   }
                 });
           }
-        })
+        });
       },
 
       switchPage(page) {
@@ -228,10 +223,6 @@
 
     created() {
       this.loadData();
-    },
-
-    mounted() {
-
     }
   }
 </script>
