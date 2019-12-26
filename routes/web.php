@@ -17,6 +17,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('register', 'AuthController@register');
+
+    Route::post('login', 'AuthController@login');
+
+    Route::get('refresh', 'AuthController@refresh');
+
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('user', 'AuthController@user');
+
+        Route::post('logout', 'AuthController@logout');
+    });
+});
+
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();

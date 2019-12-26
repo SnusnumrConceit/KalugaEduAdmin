@@ -24,21 +24,28 @@
                    class="form-control"
                    v-model="user.email">
         </div>
-        <div class="form-group">
-            <label for="">
-                Пароль <sup>*</sup>
-            </label>
-            <input type="password"
-                   class="form-control"
-                   v-model="user.password">
+        <div class="password-section" v-if="! ID">
+            <div class="form-group">
+                <label for="">
+                    Пароль <sup>*</sup>
+                </label>
+                <input type="password"
+                       class="form-control"
+                       v-model="user.password">
+            </div>
+            <div class="form-group">
+                <label for="">
+                    Подвердите пароль <sup>*</sup>
+                </label>
+                <input type="password"
+                       class="form-control"
+                       v-model="user.password_confirmation">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="">
-                Подвердите пароль <sup>*</sup>
-            </label>
-            <input type="password"
-                   class="form-control"
-                   v-model="user.password_confirmation">
+        <div class="form-group" @click="$emit('show_reset_password_form')" v-else>
+            <button class="btn btn-outline-primary">
+                Сбросить пароль
+            </button>
         </div>
         <!--<div class="form-group">-->
             <!--<label for="">-->
@@ -58,11 +65,14 @@
                 Отмена
             </button>
         </div>
+
+        <reset-password></reset-password>
     </div>
 </template>
 
 <script>
   import swal_error from '../../../mixins/swal';
+  import ResetPassword from './reset_password';
 
   export default {
     name: "user_form",
@@ -70,6 +80,10 @@
     mixins: [
         swal_error
     ],
+
+    components: {
+      ResetPassword
+    },
 
     data() {
       return {

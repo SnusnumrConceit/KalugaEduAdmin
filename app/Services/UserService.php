@@ -46,6 +46,8 @@ class UserService
         $user = $request->validated();
         unset($user['password_confirmation']);
 
+        $user['password'] = bcrypt($user['password']);
+
         User::create($user);
 
         return response()->json([

@@ -12,5 +12,10 @@
   "user_msg_success_delete": "Пользователь успешно удален!",
 
   "form_request_invalid_data_msg": "Проверьте корректность данных",
-  "form_request_auth_error": "Вы не авторизованы в системе"
+  "form_request_auth_error": "Вы не авторизованы в системе",
+
+  "auth_login_error": "Неверный логин или пароль",
+  "auth_token_refresh_error": "Возникла ошибка при обновлении токена",
+
+  "auth_logout_success": "Вы успешно вышли из системы"
 }

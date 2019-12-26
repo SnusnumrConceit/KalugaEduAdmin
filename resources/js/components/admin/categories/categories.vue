@@ -77,8 +77,6 @@
             Не найдено ни одной категории
         </div>
 
-        <!--<VueDocPreview :value="docValue" :type="docType" />-->
-
         <category-detail>
 
         </category-detail>
@@ -89,14 +87,12 @@
   import CategoryDetail from './category_detail';
   import debounce from '../../../debounce';
   import swal_error from '../../../mixins/swal'
-  import VueDocPreview from 'vue-doc-preview'
 
   export default {
     name: "categories",
 
     components: {
       "category-detail": CategoryDetail,
-      VueDocPreview
     },
 
     mixins: [

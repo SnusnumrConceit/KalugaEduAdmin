@@ -8,7 +8,15 @@ import AdminDocumentForm from './components/admin/documents/document_form';
 import AdminUsers from './components/admin/users/users';
 import AdminUserForm from './components/admin/users/user_form';
 
+import Login from './components/base/auth/login';
+
 export const routes = [
+    /** Маршруты авторизации **/
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
   {
     path: '/admin/categories',
     name: 'AdminCategories',
