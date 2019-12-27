@@ -46,9 +46,9 @@
                     <!-- Исправить на router-link -->
                     <div class="row" v-for="(doc, index) in category.documents" :key="doc.id">
                         <div class="col-10">
-                        <span>
-                            {{ doc.name }}
-                        </span>
+                        <button class="btn btn-outline-default" @click.prevent="download(doc.name, doc.url)">
+                            <i class="fas fa-file-word"></i> {{ doc.name }}
+                        </button>
                         </div>
                         <div class="col-2">
                             <i class="pe-7s-settings text-success pointer icons"
@@ -69,8 +69,14 @@
 </template>
 
 <script>
+  import doc_download from '../../../mixins/doc_download';
+
   export default {
     name: "category_detail",
+
+    mixins: [
+        doc_download
+    ],
 
     data() {
       return {

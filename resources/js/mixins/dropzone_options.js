@@ -2,11 +2,12 @@ export default {
   data() {
     return {
       dropzone_options: {
-        url: 'https://httpbin.org/post',
+        url: '/admin/documents/upload',
         thumbnailWidth: 150,
         maxFilesize: 0.5,
-        headers: { "X-CSRF-TOKEN": $('meta').attr('content') },
-        acceptedFiles: ['.doc', '.docx'],
+        headers: { "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content') },
+        acceptedFiles: '.doc,.docx',
+        addRemoveLinks: true,
 
         "dictDefaultMessage": '<i class="pe-7s-cloud-upload icons"></i>Переместите документ в область загрузки',
 

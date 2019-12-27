@@ -30,7 +30,7 @@
             <label for="">
                 Документ
             </label>
-            <vue-dropzone ref="doc_dropzone" id="dropzone" :options="dropzone_options"></vue-dropzone>
+            <vue-dropzone ref="doc_dropzone" id="dropzone" :options="dropzone_options" @vdropzone-success="successUpload" @vdropzone-error="errorUpload"></vue-dropzone>
         </div>
         <div class="form-group">
             <button class="btn btn-outline-success" @click="save">
@@ -138,6 +138,15 @@
             this.showErrorSwal(response.data.error);
             break;
         }
+      },
+
+      successUpload(file, response) {
+        console.log('SUCCESS', file, response);
+        this.document.url = response.url;
+      },
+
+      errorUpload(file, response) {
+        console.error(file, response);
       }
     },
 

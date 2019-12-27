@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocumentRemoveRequest;
 use App\Http\Requests\DocumentStoreRequest;
+use App\Http\Requests\DocumentUploadRequest;
 use App\Models\Document;
 use App\Services\DocumentService;
+use App\Services\MediaContentService;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
-    protected $document;
+    protected $document, $content;
 
-    public function __construct(DocumentService $document)
+    public function __construct(DocumentService $document, MediaContentService $content)
     {
         $this->document = $document;
+        $this->content = $content;
     }
 
     /**
@@ -95,5 +99,23 @@ class DocumentController extends Controller
     public function search(Request $request)
     {
         return $this->document->search($request);
+    }
+
+    /** Загрука документа */
+    public function upload(DocumentUploadRequest $request)
+    {
+        return $this->content->upload($request);
+    }
+
+    /** Удаление файла документа */
+    public function remove(DocumentRemoveRequest $request)
+    {
+        return $this->content->remove($request->url);
+    }
+
+    /** Выгрузка файла документа */
+    public function download(DocumentRemoveRequest $request)
+    {
+        return $this->content->download($request->url);
     }
 }

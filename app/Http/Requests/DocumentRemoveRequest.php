@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class DocumentUploadRequest extends FormRequest
+class DocumentRemoveRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,23 +27,21 @@ class DocumentUploadRequest extends FormRequest
     public function rules()
     {
         return [
-            'file.*' => 'file|mimes:docx,doc'
+            'url' => 'required|min:10|max:255|string'
         ];
     }
 
-    public function failedAuthorization()
+    protected function failedAuthorization()
     {
-        return (new AuthorizationException(__('form_request_auth_error'), 403));
+        throw new AuthorizationException(__('form_request_auth_error'), 403);
     }
 
-    public function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator)
     {
-        throw (new ValidationException($validator, response()->json(
-            [
-                'status' => 'error',
-                'msg' => __('form_request_invalid_data_msg'),
-                'error' => $validator->errors()
-            ]
-        )));
+        throw (new ValidationException($validator, response()->json([
+            'status' => 'error',
+            'msg'    => __('form_request_invalid_data_msg'),
+            'error'  => $validator->errors()
+        ])));
     }
 }

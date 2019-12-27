@@ -86,7 +86,7 @@
 <script>
   import CategoryDetail from './category_detail';
   import debounce from '../../../debounce';
-  import swal_error from '../../../mixins/swal'
+  import swal_error from '../../../mixins/swal';
 
   export default {
     name: "categories",

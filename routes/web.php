@@ -44,5 +44,9 @@ Route::get('/admin/categories/search', 'CategoryController@search');
 Route::resource('documents', 'DocumentController');
 Route::get('/admin/documents/search', 'DocumentController@search');
 
+Route::post('/admin/documents/upload', 'DocumentController@upload');
+Route::post('/admin/documents/remove', 'DocumentController@remove');
+Route::post('/admin/documents/download', 'DocumentController@download');
+
 Route::resource('users', 'UserController');
 Route::get('/admin/users/search', 'UserController@search');

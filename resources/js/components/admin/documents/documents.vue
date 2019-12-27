@@ -26,7 +26,10 @@
                         <td>
                             <!-- по клику вызывать модалку -->
                             <span>
-                                {{ doc.name }}
+                                <button class="btn btn-outline-default"
+                                        @click.prevent="download(doc.name, doc.url)">
+                                    <i class="fas fa-file-word"></i> {{ doc.name }}
+                                </button>
                             </span>
                         </td>
                         <td>
@@ -83,12 +86,14 @@
 
   import debounce from '../../../debounce';
   import swal_error from '../../../mixins/swal';
+  import doc_download from '../../../mixins/doc_download';
 
   export default {
     name: "documents",
 
     mixins: [
-      swal_error
+      swal_error,
+      doc_download
     ],
 
     data() {
@@ -197,7 +202,28 @@
       switchPage(page) {
         this.pagination.page = page;
         (this.isSearching) ? this.searchData() : this.loadData();
-      }
+      },
+
+      // download(name, path) {
+      //   console.log(name, path);
+      //   axios({
+      //     url: '/admin/documents/download',
+      //     method: 'POST',
+      //     responseType: 'blob',
+      //     data: {
+      //       url: path
+      //     }
+      //   }).then((response) => {
+      //     console.log(response);
+      //     let blob = new Blob([response.data]);
+      //     let link = document.createElement('a');
+      //     link.href = window.URL.createObjectURL(blob);
+      //     link.download = `${name}.doc`;
+      //     link.click();
+      //   }).catch((err) => {
+      //     console.error(err);
+      //   })
+      // }
     },
 
     watch: {
