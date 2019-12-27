@@ -52,7 +52,17 @@
 
     methods: {
       async authorize() {
-        const response = await axios.post(`/auth/login`, this.auth);
+        const redirect = this.$auth.redirect();
+        const app = this;
+
+        const response = await this.$auth.login({
+          data: {
+            email: this.auth.email,
+            password: this.auth.password
+          }
+        });
+        console.log(response);
+        // const response = await axios.post(`/auth/login`, this.auth);
 
         console.log(response.data);
 

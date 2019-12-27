@@ -65,7 +65,28 @@ Vue.use(VueRouter);
 
 import {routes} from './router';
 
-const router = new VueRouter({routes});
+const router = new VueRouter({
+  routes,
+  history: true,
+  mode: 'history'
+});
+
+Vue.router = router;
+/** **/
+
+import 'es6-promise/auto';
+
+/** Set Vue Auth**/
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+
+Vue.use(VueAxios, axios);
+
+import VueAuth from '@websanova/vue-auth';
+
+import auth from './auth';
+
+Vue.use(VueAuth, auth);
 
 import Navigation from './components/base/navigation'
 

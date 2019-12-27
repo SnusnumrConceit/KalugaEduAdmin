@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('register', 'AuthController@register');

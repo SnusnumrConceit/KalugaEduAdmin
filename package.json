@@ -24,8 +24,11 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@websanova/vue-auth": "^2.21.15-beta",
+        "es6-promise": "^4.2.8",
         "pe7-icon": "^1.0.4",
         "v-tooltip": "^2.0.2",
+        "vue-axios": "^2.1.5",
         "vue-doc-preview": "^0.3.2",
         "vue-js-modal": "^1.3.31",
         "vue-router": "^3.1.3",

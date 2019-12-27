@@ -13,63 +13,93 @@ import Login from './components/base/auth/login';
 export const routes = [
     /** Маршруты авторизации **/
   {
-    path: '/login',
+    path: '/admin/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      auth: undefined
+    }
   },
   {
     path: '/admin/categories',
     name: 'AdminCategories',
-    component: AdminCategories
+    component: AdminCategories,
+    meta: {
+      auth: undefined
+    }
   },
 
   {
     path: '/admin/categories/create',
     name: 'AdminCategoryForm',
-    component: AdminCategoryForm
+    component: AdminCategoryForm,
+    meta: {
+      auth: undefined
+    }
   },
 
   {
     path: '/admin/categories/:id',
     name: 'AdminCategoryForm',
-    component: AdminCategoryForm
+    component: AdminCategoryForm,
+    meta: {
+      auth: undefined
+    }
   },
 
     /** Документы в админке */
   {
     path: '/admin/documents',
     name: 'AdminDocuments',
-    component: AdminDocuments
+    component: AdminDocuments,
+    meta: {
+      auth: undefined
+    }
   },
 
   {
     path: '/admin/documents/create',
     name: 'AdminDocumentForm',
-    component: AdminDocumentForm
+    component: AdminDocumentForm,
+    meta: {
+      auth: undefined
+    }
   },
 
   {
     path: '/admin/documents/:id',
     name: 'AdminDocumentForm',
-    component: AdminDocumentForm
+    component: AdminDocumentForm,
+    meta: {
+      auth: undefined
+    }
   },
 
   /** Пользователи в админке */
   {
     path: '/admin/users',
     name: 'AdminUsers',
-    component: AdminUsers
+    component: AdminUsers,
+    meta: {
+      auth: undefined
+    }
   },
 
   {
     path: '/admin/users/create',
     name: 'AdminUserForm',
-    component: AdminUserForm
+    component: AdminUserForm,
+    meta: {
+      auth: undefined
+    }
   },
 
   {
     path: '/admin/users/:id',
     name: 'AdminUserForm',
-    component: AdminUserForm
+    component: AdminUserForm,
+    meta: {
+      auth: undefined
+    }
   }
 ];
