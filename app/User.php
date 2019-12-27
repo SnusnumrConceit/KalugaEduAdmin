@@ -6,12 +6,13 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Kodeine\Acl\Models\Eloquent\Role;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-
+use Kodeine\Acl\Traits\HasRole;
 
 class User extends Authenticatable implements JWTSubject, CanResetPassword, MustVerifyEmail
 {
-    use Notifiable;
+    use Notifiable, HasRole;
 
     /**
      * The attributes that are mass assignable.
@@ -44,7 +45,7 @@ class User extends Authenticatable implements JWTSubject, CanResetPassword, Must
 
     public function role()
     {
-//        return $this->belongsTo()
+        return $this->belongsToMany(Role::class)->latest();
     }
 
     /** получение JWT-идентификатора */

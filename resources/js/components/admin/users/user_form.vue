@@ -47,16 +47,16 @@
                 Сбросить пароль
             </button>
         </div>
-        <!--<div class="form-group">-->
-            <!--<label for="">-->
-                <!--Роли-->
-            <!--</label>-->
-            <!--<v-select :reduce="role => role.id"-->
-                      <!--v-model="user.role.id"-->
-                      <!--:options="roles"-->
-                      <!--label="name">-->
-            <!--</v-select>-->
-        <!--</div>-->
+        <div class="form-group" v-if="roles.length">
+            <label for="">
+                Роли
+            </label>
+            <v-select :reduce="role => role.id"
+                      v-model="user.role[0].id"
+                      :options="roles"
+                      label="name">
+            </v-select>
+        </div>
         <div class="form-group">
             <button class="btn btn-outline-success" @click="save">
                 Добавить
@@ -92,6 +92,11 @@
           email: '',
           password: '',
           password_confirmation: '',
+          role: [
+            {
+              id: null
+            }
+          ]
         },
 
         roles: []
@@ -121,11 +126,11 @@
       },
 
       async loadRoles() {
-        const response = await axios.get(`/roles`);
+        const response = await axios.get(`/admin/roles`);
 
         switch (response.status) {
           case 200:
-            this.user = response.data.roles;
+            this.roles = response.data.roles;
             break;
 
           default:
@@ -173,7 +178,7 @@
     },
 
     mounted() {
-      // this.loadRoles();
+      this.loadRoles();
     }
   }
 </script>

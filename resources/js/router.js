@@ -8,9 +8,29 @@ import AdminDocumentForm from './components/admin/documents/document_form';
 import AdminUsers from './components/admin/users/users';
 import AdminUserForm from './components/admin/users/user_form';
 
+import Dashboard from './components/dashboard/dashboard';
+import CategoryDocuments from './components/dashboard/category_documents';
+
 import Login from './components/base/auth/login';
 
 export const routes = [
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: {
+      auth: undefined
+    }
+  },
+  {
+    path: '/category/:id',
+    name: 'CategoryDocuments',
+    component: CategoryDocuments,
+    meta: {
+      auth: undefined
+    }
+  },
+
     /** Маршруты авторизации **/
   {
     path: '/admin/login',

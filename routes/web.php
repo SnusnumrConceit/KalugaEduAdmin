@@ -40,6 +40,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('categories', 'CategoryController');
 Route::get('/admin/categories/search', 'CategoryController@search');
+Route::get('/categories/{category}/documents', 'CategoryController@getDocuments');
+
+Route::get('/admin/roles', 'RoleController@index');
 
 Route::resource('documents', 'DocumentController');
 Route::get('/admin/documents/search', 'DocumentController@search');

@@ -39,12 +39,12 @@
                         </span>
                     </td>
                     <td>
-                        <!--<span v-if="user.role !== null">-->
-                            <!--{{ user.role.name }}-->
-                        <!--</span>-->
-                        <!--<span v-else>-->
-                            <!--<i>Нет</i>-->
-                        <!--</span>-->
+                        <span v-if="user.role !== null">
+                            {{ user.role[0].name }}
+                        </span>
+                        <span v-else>
+                            <i>Нет</i>
+                        </span>
                     </td>
                     <!-- иконки -->
                     <td>

@@ -88,13 +88,15 @@ import auth from './auth';
 
 Vue.use(VueAuth, auth);
 
-import Navigation from './components/base/navigation'
+import Admin from './components/admin/admin'
+import Dashboard from './components/dashboard/index'
 
 const app = new Vue({
   el: '#app',
   router,
 
   components: {
-    Navigation
+    Admin,
+    Dashboard
   }
 });

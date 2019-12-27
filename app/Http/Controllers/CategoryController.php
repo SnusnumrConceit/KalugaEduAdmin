@@ -98,4 +98,11 @@ class CategoryController extends Controller
     {
         return $this->category->search($request);
     }
+
+    public function getDocuments(Category $category) : JsonResponse
+    {
+        return response()->json([
+            'category' => $category->with('documents')->find($category->id)
+        ]);
+    }
 }

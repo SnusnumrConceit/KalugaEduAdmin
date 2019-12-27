@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Document;
 use App\Observers\CategoryObserver;
 use App\Observers\DocumentObserver;
+use App\Observers\UserObserver;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Category::observe(CategoryObserver::class);
         Document::observe(DocumentObserver::class);
+        User::observe(UserObserver::class);
     }
 }

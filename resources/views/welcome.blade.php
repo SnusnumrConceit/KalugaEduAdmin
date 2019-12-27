@@ -73,16 +73,38 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            [v-cloak] .v-cloak--block {
+                display: block;
+            }
+            [v-cloak] .v-cloak--inline {
+                display: inline;
+            }
+            [v-cloak] .v-cloak--inlineBlock {
+                display: inline-block;
+            }
+            [v-cloak] .v-cloak--hidden {
+                display: none;
+            }
+            [v-cloak] .v-cloak--invisible {
+                visibility: hidden;
+            }
+            .v-cloak--block,
+            .v-cloak--inline,
+            .v-cloak--inlineBlock {
+                display: none;
+            }
         </style>
     </head>
     <body>
-        <div id="app" class="container-fluid row">
-            <navigation>
+        <div id="app" v-cloak class="container-fluid row">
+            {{--<dashboard>--}}
 
-            </navigation>
-            <div class="col-md-8 col-lg-10 bg-light">
-                <router-view></router-view>
-            </div>
+            {{--</dashboard>--}}
+            {{-- ADMIN COMPONENT--}}
+            <admin>
+
+            </admin>
         </div>
         <script src="{{ asset('/js/app.js') }}"></script>
     </body>

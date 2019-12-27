@@ -29,7 +29,8 @@ class UserStoreRequest extends FormRequest
         return [
             'login' => 'required|min:5|max:255|regex:/([\w][\w+\d+])/i',
             'email' => 'required|min:10|max:255|email',
-            'password' => 'required|min:6|max:60|confirmed|regex:/([\w][\w+\d+])/i'
+            'password' => 'required|min:6|max:60|confirmed|regex:/([\w][\w+\d+])/i',
+            'role.id' => 'required|exists:roles,id'
         ];
     }
 

@@ -30,7 +30,7 @@
                         </span>
                     </td>
                     <td>
-                        <span v-if="category.parent_id !== null">
+                        <span v-if="category.parent !== null">
                             {{ category.parent.name }}
                         </span>
                         <span v-else>

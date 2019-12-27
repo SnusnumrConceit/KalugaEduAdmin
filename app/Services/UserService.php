@@ -18,7 +18,7 @@ class UserService
      */
     public function index(Request $request) : JsonResponse
     {
-        $users = User::paginate();
+        $users = User::with('role')->paginate();
 
         return response()->json([
             'users' => $users
@@ -44,11 +44,10 @@ class UserService
     public function store(UserStoreRequest $request) : JsonResponse
     {
         $user = $request->validated();
-        unset($user['password_confirmation']);
 
-        $user['password'] = bcrypt($user['password']);
-
-        User::create($user);
+        $role = $user['role']['id'];
+        $user = User::create($user);
+        $user->assignRole($role);
 
         return response()->json([
             'status' => 'success',
@@ -65,7 +64,7 @@ class UserService
     public function show(User $user) : JsonResponse
     {
         return response()->json([
-            'user' => $user
+            'user' => $user->with('role')->find($user->id)
         ], 200);
     }
 
@@ -78,7 +77,7 @@ class UserService
     public function edit(User $user) : JsonResponse
     {
         return response()->json([
-            'user' => $user
+            'user' => $user->with('role')->find($user->id)
         ], 200);
     }
 
