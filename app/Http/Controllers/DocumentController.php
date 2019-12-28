@@ -110,7 +110,7 @@ class DocumentController extends Controller
     /** Удаление файла документа */
     public function remove(DocumentRemoveRequest $request)
     {
-        return $this->content->remove($request->url);
+//        return $this->content->remove($request->url);
     }
 
     /** Выгрузка файла документа */

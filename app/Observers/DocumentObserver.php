@@ -33,7 +33,9 @@ class DocumentObserver
 
     public function updating(Document $document)
     {
-//        $document->url = $this->content->move($document->url);
+        if ($document->getOriginal('url') !== $document->url) {
+            $document->url = $this->content->move($document->url);
+        }
     }
 
     /**
@@ -55,7 +57,7 @@ class DocumentObserver
      */
     public function deleted(Document $document)
     {
-        //
+        $this->content->remove($document->url);
     }
 
     /**

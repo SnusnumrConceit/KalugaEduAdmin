@@ -59,7 +59,12 @@
         </div>
         <div class="form-group">
             <button class="btn btn-outline-success" @click="save">
-                Добавить
+                <span v-if="ID">
+                    Сохранить
+                </span>
+                <span v-else>
+                    Добавить
+                </span>
             </button>
             <button class="btn btn-outline-default" @click="$router.go(-1)">
                 Отмена

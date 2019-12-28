@@ -1,7 +1,7 @@
 <template>
     <div class="card w-50 mx-auto mt-4 p-5">
         <h2>
-            <span v-if="hasID">
+            <span v-if="ID">
                 Редактирование
             </span>
             <span v-else>
@@ -26,15 +26,25 @@
                       label="name">
             </v-select>
         </div>
-        <div class="form-group" v-if="! document.url.length">
+        <div class="form-group">
             <label for="">
                 Документ
             </label>
-            <vue-dropzone ref="doc_dropzone" id="dropzone" :options="dropzone_options" @vdropzone-success="successUpload" @vdropzone-error="errorUpload"></vue-dropzone>
+            <vue-dropzone ref="doc_dropzone"
+                          id="dropzone"
+                          :options="dropzone_options"
+                          @vdropzone-success="successUpload"
+                          @vdropzone-error="errorUpload"
+                          @vdropzone-removed-file="removeDoc"></vue-dropzone>
         </div>
         <div class="form-group">
             <button class="btn btn-outline-success" @click="save">
-                Добавить
+                <span v-if="ID">
+                    Сохранить
+                </span>
+                <span v-else>
+                    Добавить
+                </span>
             </button>
             <button class="btn btn-outline-default" @click="$router.go(-1)">
                 Отмена
@@ -70,12 +80,14 @@
           category_id: null
         },
 
+        file: {},
+
         categories: []
       }
     },
 
     computed: {
-      hasID() {
+      ID() {
         return this.$route.params.id;
       },
     },
@@ -83,11 +95,12 @@
     methods: {
 
       async loadDoc() {
-        const response = await axios.get(`/documents/${this.hasID}/edit`);
+        const response = await axios.get(`/documents/${this.ID}/edit`);
 
         switch (response.status) {
           case 200:
             this.document = response.data.doc;
+            this.file = response.data.file;
             break;
 
           default:
@@ -97,7 +110,7 @@
       },
 
       async save() {
-        if (! this.hasID) {
+        if (! this.ID) {
           const response = await axios.post('/documents', {...this.document});
 
           switch (response.data.status) {
@@ -111,7 +124,7 @@
               break;
           }
         } else {
-          const response = await axios.patch(`/documents/${this.hasID}`, {...this.document});
+          const response = await axios.patch(`/documents/${this.ID}`, {...this.document});
 
           switch (response.data.status) {
             case 'success':
@@ -140,22 +153,47 @@
         }
       },
 
+      /** если файл успешно загружен, то присваиваем путь до файла **/
       successUpload(file, response) {
         console.log('SUCCESS', file, response);
         this.document.url = response.url;
+        this.$refs.doc_dropzone.disable();
       },
 
+      /** если загрузка файла завершилась ошибкой, то выводим ошибку в консоль **/
       errorUpload(file, response) {
         console.error(file, response);
+      },
+
+      /** при удалении документа удаляем его из системы **/
+      async removeDoc(file, error) {
+        const response = await axios.post(`/admin/documents/remove`, {
+          url: this.document.url
+        });
+
+        this.document.url = '';
+        this.$refs.doc_dropzone.enable();
+
+        console.log(response.data);
       }
     },
 
     created() {
-      if (this.hasID) {
+      if (this.ID) {
        this.loadDoc();
       }
 
       this.loadCategories();
+    },
+
+    mounted() {
+      if (this.ID)
+      setTimeout(() => {
+        var file = { size: this.file.size, name: this.document.name, type: "image/png" };
+        var url = this.document.url;
+        this.$refs.doc_dropzone.manuallyAddFile(file, url);
+      }, 300);
+
     }
 
   }

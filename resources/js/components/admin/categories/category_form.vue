@@ -1,7 +1,7 @@
 <template>
     <div class="card mx-auto p-5 w-50 mt-4">
         <h2>
-            <span v-if="hasID">
+            <span v-if="ID">
                 Редактирование
             </span>
             <span v-else>
@@ -37,7 +37,12 @@
 
         <div class="form-group">
             <button class="btn btn-outline-success" @click="save">
-                Добавить
+                <span v-if="ID">
+                    Сохранить
+                </span>
+                <span v-else>
+                    Добавить
+                </span>
             </button>
             <button class="btn btn-outline-default" @click="$router.go(-1)">
                 Отмена
@@ -70,7 +75,7 @@
     },
 
     computed: {
-        hasID() {
+        ID() {
           return this.$route.params.id;
         }
     },
@@ -136,7 +141,7 @@
     },
 
     mounted() {
-      if (this.hasID) {
+      if (this.ID) {
         this.loadCategory();
       }
       this.loadCategories();

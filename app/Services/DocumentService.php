@@ -14,6 +14,7 @@ use App\Http\Requests\DocumentStoreRequest;
 use App\Models\Document;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentService
 {
@@ -76,8 +77,12 @@ class DocumentService
      */
     public function edit(Document $document) : JsonResponse
     {
+        $file['size'] = Storage::disk('local')->size($document->url);
+        $file['last_modified'] = Storage::disk('local')->lastModified($document->url);
+
         return response()->json([
-            'doc' => $document
+            'doc' => $document,
+            'file' => $file
         ], 200);
     }
 

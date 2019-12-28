@@ -56,14 +56,20 @@ class MediaContentService
     }
 
     public function remove(string $url) {
-        if (! Storage::exists($url)) {
+        try {
+            if (! Storage::exists($url)) {
+                throw new \Exception('Файл не найден');
+            }
+
+            Storage::delete($url);
+        } catch (\Exception $error) {
             return response()->json([
                 'status' => 'error',
-                'msg' => 'Файл не найден'
-            ]);
+                'msg' => $error->getMessage()
+            ], 500);
         }
 
-        Storage::delete($url);
+
     }
 
     public function download(string $url)
