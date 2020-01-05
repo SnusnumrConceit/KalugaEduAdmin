@@ -112,14 +112,17 @@
       },
 
       async loadCategory() {
+        $('.spinner-block').removeClass('d-none');
         const response = await axios.get(`/categories/${this.$route.params.id}/edit`);
 
         switch (response.status) {
           case 200:
+            $('.spinner-block').addClass('d-none');
             this.category = response.data.category;
             break;
 
           default:
+            $('.spinner-block').addClass('d-none');
             this.showErrorSwal(response.data.msg);
             break;
         }

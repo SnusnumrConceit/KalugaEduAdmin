@@ -7,19 +7,19 @@ use Closure;
 
 class Authenticate extends Middleware
 {
-    const AUTH_FAILED = 'authentication_failed';
+    private $AUTH_FAILED = 'authentication_failed';
 
     /** перезаписываем метод handle (захвата) */
     public function handle($request, Closure $next, ...$guards)
     {
-        if ($this->authenticate($request, $guards) === AUTH_FAILED) {
+        if ($this->authenticate($request, $guards) === $this->AUTH_FAILED) {
             return response()->json([
                 'status' => 'error',
                 'msg' => 'Unauthorized'
             ], 400);
         }
 
-        return $next;
+        return $next($request);
     }
 
     public function authenticate($request, array $guards)
@@ -34,18 +34,18 @@ class Authenticate extends Middleware
             }
         }
 
-        return AUTH_FAILED;
+        return $this->AUTH_FAILED;
     }
-    /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string|null
-     */
-    protected function redirectTo($request)
-    {
-        if (! $request->expectsJson()) {
-            return route('login');
-        }
-    }
+//    /**
+//     * Get the path the user should be redirected to when they are not authenticated.
+//     *
+//     * @param  \Illuminate\Http\Request  $request
+//     * @return string|null
+//     */
+//    protected function redirectTo($request)
+//    {
+//        if (! $request->expectsJson()) {
+//            return route('login');
+//        }
+//    }
 }

@@ -45,7 +45,7 @@ class UserService
     {
         $user = $request->validated();
 
-        $role = $user['role']['id'];
+        $role = $user['role'][0]['id'];
         $user = User::create($user);
         $user->assignRole($role);
 

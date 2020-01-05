@@ -74,37 +74,75 @@
                 margin-bottom: 30px;
             }
 
-            [v-cloak] .v-cloak--block {
+            .spinner-block {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                background: #000000;
+            }
+            .spinner {
+                font-size: 50px;
+                position: relative;
+            }
+            .spinner:before, .spinner:after {
+                content: "";
+                position: relative;
                 display: block;
             }
-            [v-cloak] .v-cloak--inline {
-                display: inline;
+            .spinner:before {
+                animation: spinner 2.5s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
+                width: 1em;
+                height: 1em;
+                background-color: #f07260;
             }
-            [v-cloak] .v-cloak--inlineBlock {
-                display: inline-block;
+            .spinner:after {
+                animation: shadow 2.5s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
+                bottom: -.5em;
+                height: .25em;
+                border-radius: 50%;
+                background-color: rgba(#000,0.2);
             }
-            [v-cloak] .v-cloak--hidden {
-                display: none;
+
+            @keyframes spinner {
+                50% {
+                    border-radius: 50%;
+                    transform: scale(0.5) rotate(360deg);
+                }
+                100% {
+                    transform: scale(1) rotate(720deg);
+                }
             }
-            [v-cloak] .v-cloak--invisible {
-                visibility: hidden;
+            @keyframes shadow {
+                50% {
+                    transform: scale(0.5);
+                    background-color: rgba(#000,0.1);
+                }
             }
-            .v-cloak--block,
-            .v-cloak--inline,
-            .v-cloak--inlineBlock {
-                display: none;
+
+            .fader {
+                opacity: 0;
+                transition: opacity 1s ease;
             }
+            body.AppMounted .spinner-block { display: none; }
+            body.AppMounted .fader { opacity: 1; }
         </style>
+
     </head>
     <body>
-        <div id="app" v-cloak class="container-fluid row">
-            {{--<dashboard>--}}
-
-            {{--</dashboard>--}}
+        <div id="app" v-cloak class="">
             {{-- ADMIN COMPONENT--}}
-            <admin>
-
-            </admin>
+            <base-main></base-main>
+        </div>
+        <div class="spinner-block d-none">
+            <h1>Загрузка...</h1>
+            <div class="spinner"></div>
         </div>
         <script src="{{ asset('/js/app.js') }}"></script>
     </body>

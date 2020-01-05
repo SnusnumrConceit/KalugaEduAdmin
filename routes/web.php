@@ -11,30 +11,31 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 //Auth::routes();
+Route::group(['prefix' => 'admin'], function () {
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('register', 'AuthController@register');
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('register', 'AuthController@register');
+        Route::post('login', 'AuthController@login');
 
-    Route::post('login', 'AuthController@login');
+        Route::get('refresh', 'AuthController@refresh');
 
-    Route::get('refresh', 'AuthController@refresh');
+        Route::group(['middleware' => 'auth'], function () {
+            Route::get('user', 'AuthController@user');
 
-    Route::group(['middleware' => 'auth'], function () {
-        Route::get('user', 'AuthController@user');
-
-        Route::post('logout', 'AuthController@logout');
+            Route::post('logout', 'AuthController@logout');
+        });
     });
 });
 
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -53,3 +54,7 @@ Route::post('/admin/documents/download', 'DocumentController@download');
 
 Route::resource('users', 'UserController');
 Route::get('/admin/users/search', 'UserController@search');
+
+Route::get('/{any}', function () {
+    return view('welcome');
+})->where('any', '.*');

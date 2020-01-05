@@ -28,26 +28,31 @@ class AuthController extends Controller
     /** Вход в систему */
     public function login(LoginRequest $request) : JsonResponse
     {
+//        if (! $request->validated()) {
+//            return false;
+//        }
+
         $credentials = $request->only('email', 'password');
 
         /** attempt - проверка соответствия credential'a */
-        if ($token = $this->guard()->attempt($credentials)) {
+        if (! $token = $this->guard()->attempt($credentials)) {
             return response()->json([
-                'status' => 'success',
-                'msg' => $this->user()
+                'status' => 'error',
+                'error' => __('auth_login_error')
+            ]);
+        } else {
+            auth()->attempt($credentials, true);
+            return response()->json([
+                'status' => 'success'
             ], 200)->header('Authorization', $token);
         }
-
-        return response()->json([
-            'status' => 'error',
-            'error' => __('auth_login_error')
-        ]);
     }
 
     /** Выход из системы */
     public function logout() : JsonResponse
     {
         $this->guard()->logout();
+        auth()->logout();
 
         return response()->json([
             'status' => 'success',
@@ -58,7 +63,7 @@ class AuthController extends Controller
     /** Получаем авторизованного пользователя */
     public function user(Request $request) : JsonResponse
     {
-        $user = User::find(auth()::user()->id);
+        $user = User::with(['roles'])->find(auth()->user()->id);
 
         return response()->json([
             'status' => 'success',

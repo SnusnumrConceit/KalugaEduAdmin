@@ -82,7 +82,9 @@
 
         file: {},
 
-        categories: []
+        categories: [],
+
+        isDestroying: false
       }
     },
 
@@ -95,15 +97,18 @@
     methods: {
 
       async loadDoc() {
+        $('.spinner-block').removeClass('d-none');
         const response = await axios.get(`/documents/${this.ID}/edit`);
 
         switch (response.status) {
           case 200:
+            $('.spinner-block').addClass('d-none');
             this.document = response.data.doc;
             this.file = response.data.file;
             break;
 
           default:
+            $('.spinner-block').addClass('d-none');
             this.showErrorSwal(response.data.error);
             break;
         }
@@ -167,6 +172,9 @@
 
       /** при удалении документа удаляем его из системы **/
       async removeDoc(file, error) {
+        if (this.isDestroying) {
+          return ;
+        }
         const response = await axios.post(`/admin/documents/remove`, {
           url: this.document.url
         });
@@ -187,13 +195,20 @@
     },
 
     mounted() {
-      if (this.ID)
-      setTimeout(() => {
-        var file = { size: this.file.size, name: this.document.name, type: "image/png" };
-        var url = this.document.url;
-        this.$refs.doc_dropzone.manuallyAddFile(file, url);
-      }, 300);
+      if (this.ID) {
+        setTimeout(() => {
+          const file = { size: this.file.size, name: this.document.name, type: "image/jpg" };
+          const url = this.document.url;
+          this.$refs.doc_dropzone.manuallyAddFile(file, url);
+          this.$refs.doc_dropzone.disable();
+        }, 300);
 
+      }
+
+    },
+
+    beforeDestroy() {
+      this.isDestroying = true;
     }
 
   }

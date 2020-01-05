@@ -13,13 +13,32 @@ import CategoryDocuments from './components/dashboard/category_documents';
 
 import Login from './components/base/auth/login';
 
+import Admin from './components/admin/admin';
+import UI from './components/dashboard/index';
+
 export const routes = [
+  // {
+  //   path: '/admin',
+  //   name: 'Admin',
+  //   component: Admin,
+  //   meta: {
+  //     auth: true
+  //   }
+  // },
+  {
+    path: '/',
+    name: 'UI',
+    component: UI,
+    meta: {
+      auth: false
+    }
+  },
   {
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
     meta: {
-      auth: undefined
+      auth: false
     }
   },
   {
@@ -27,7 +46,7 @@ export const routes = [
     name: 'CategoryDocuments',
     component: CategoryDocuments,
     meta: {
-      auth: undefined
+      auth: false
     }
   },
 
@@ -37,7 +56,7 @@ export const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      auth: undefined
+      auth: false
     }
   },
   {
@@ -45,7 +64,7 @@ export const routes = [
     name: 'AdminCategories',
     component: AdminCategories,
     meta: {
-      auth: undefined
+      auth: true
     }
   },
 
@@ -54,7 +73,7 @@ export const routes = [
     name: 'AdminCategoryForm',
     component: AdminCategoryForm,
     meta: {
-      auth: undefined
+      auth: true
     }
   },
 
@@ -63,7 +82,7 @@ export const routes = [
     name: 'AdminCategoryForm',
     component: AdminCategoryForm,
     meta: {
-      auth: undefined
+      auth: true
     }
   },
 
@@ -73,7 +92,7 @@ export const routes = [
     name: 'AdminDocuments',
     component: AdminDocuments,
     meta: {
-      auth: undefined
+      auth: true
     }
   },
 
@@ -82,7 +101,7 @@ export const routes = [
     name: 'AdminDocumentForm',
     component: AdminDocumentForm,
     meta: {
-      auth: undefined
+      auth: true
     }
   },
 
@@ -91,7 +110,7 @@ export const routes = [
     name: 'AdminDocumentForm',
     component: AdminDocumentForm,
     meta: {
-      auth: undefined
+      auth: true
     }
   },
 
@@ -101,7 +120,7 @@ export const routes = [
     name: 'AdminUsers',
     component: AdminUsers,
     meta: {
-      auth: undefined
+      auth: true
     }
   },
 
@@ -110,7 +129,7 @@ export const routes = [
     name: 'AdminUserForm',
     component: AdminUserForm,
     meta: {
-      auth: undefined
+      auth: true
     }
   },
 
@@ -119,7 +138,7 @@ export const routes = [
     name: 'AdminUserForm',
     component: AdminUserForm,
     meta: {
-      auth: undefined
+      auth: true
     }
   }
 ];

@@ -8,38 +8,52 @@ const config = {
   router: router,
   tokenDefaultName: 'laravel-jwt-auth',
   tokenStore: ['localStorage'],
+  rolesVar: 'roles',
+
+  /**
+   *
+   * из-за того, что пакет websanova
+   * возвращает при получении пользовател data.data
+   * необходимо написать над ним переопределение
+   *
+   * */
+  parseUserData (data) {
+    return data || {}
+  },
+
+  authRedirect: `/admin/login`,
 
   /** API Auth Methods **/
   registerData: {
     url: `auth/register`,
     method: 'POST',
-    redirect: '/login'
+    redirect: 'admin/login'
   },
 
   loginData: {
     url: `auth/login`,
     method: 'POST',
-    redirect: true,
-    fetchUser: true
+    redirect: 'admin/categories',
+    fetchUser: false
   },
 
   logoutData: {
-    url: `auth/logout`,
+    url: `admin/auth/logout`,
     method: 'POST',
-    redirect: '/',
+    redirect: '/dashboard',
     makeRequest: true
   },
 
   fetchData: {
     url: `auth/user`,
     method: 'GET',
-    enabled: true
+    enabled: false
   },
 
   refreshData: {
-    url: `auth/refresh`,
+    url: `admin/auth/refresh`,
     method: 'GET',
-    enabled: true,
+    enabled: false,
     interval: 30
   }
 };

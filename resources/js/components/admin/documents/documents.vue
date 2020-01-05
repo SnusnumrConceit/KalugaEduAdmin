@@ -129,6 +129,7 @@
 
     methods: {
       async loadData() {
+        $('.spinner-block').removeClass('d-none');
         const response = await axios.get('/documents', {
           params: {
             page: this.pagination.page
@@ -137,11 +138,13 @@
 
         switch (response.status) {
           case 200:
+            $('.spinner-block').addClass('d-none');
             this.docs = response.data.docs.data;
             this.pagination.last_page = response.data.docs.last_page;
             break;
 
           default:
+            $('.spinner-block').addClass('d-none');
             console.error(response.data);
             this.showErrorSwal(response.data.error);
             break;

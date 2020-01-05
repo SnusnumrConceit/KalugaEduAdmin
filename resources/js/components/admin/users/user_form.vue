@@ -116,14 +116,17 @@
 
     methods: {
       async loadUser() {
+        $('.spinner-block').removeClass('d-none');
         const response = await axios.get(`/users/${this.ID}`);
 
         switch (response.status) {
           case 200:
+            $('.spinner-block').addClass('d-none');
             this.user = response.data.user;
             break;
 
           default:
+            $('.spinner-block').addClass('d-none');
             console.error(response.data);
             this.showErrorSwal(response.data.error);
             break;

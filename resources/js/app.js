@@ -86,10 +86,15 @@ import VueAuth from '@websanova/vue-auth';
 
 import auth from './auth';
 
+Vue.use(VueAxios, axios);
+// axios.defaults.baseURL = `${process.env.MIX_APP_URL}`;
 Vue.use(VueAuth, auth);
+/** **/
 
+/** Components **/
 import Admin from './components/admin/admin'
 import Dashboard from './components/dashboard/index'
+import BaseMain from './components/base';
 
 const app = new Vue({
   el: '#app',
@@ -97,6 +102,11 @@ const app = new Vue({
 
   components: {
     Admin,
-    Dashboard
+    Dashboard,
+    BaseMain
+  },
+
+  mounted() {
+
   }
 });

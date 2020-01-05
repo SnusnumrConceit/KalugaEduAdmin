@@ -37,6 +37,6 @@ class LoginRequest extends FormRequest
             'error' => $validator->errors(),
             'msg' => __('form_request_invalid_data_msg'),
             'status' => 'error'
-        ])));
+        ], 500)));
     }
 }

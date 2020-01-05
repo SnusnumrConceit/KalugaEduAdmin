@@ -121,15 +121,18 @@
       },
 
       async loadCategoryDetail(e) {
+        $('.spinner-block').removeClass('d-none');
         const response = await axios.get(`/categories/${e.id}`);
 
         switch (response.status) {
           case 200:
             this.category = response.data.category;
+            $('.spinner-block').addClass('d-none');
             this.show();
             break;
 
           default:
+            $('.spinner-block').addClass('d-none');
             this.$swal('Ошибка!', response.data.msg, 'error');
             break;
         }

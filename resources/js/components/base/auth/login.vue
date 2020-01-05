@@ -1,6 +1,6 @@
 <template>
-    <div class="card w-50 mx-auto mt-4 p-5">
-        <h2>Войти</h2>
+    <div class="card w-50 mx-auto mt-4 p-3">
+        <h2 class="text-center mb-3">Авторизация</h2>
 
 
         <div class="form-group row">
@@ -23,8 +23,8 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <button class="btn btn outline-primary" @click="authorize()">
+        <div class="form-group flex flex-center">
+            <button class="btn btn-outline-primary" @click="authorize()">
                 Войти
             </button>
         </div>
@@ -45,37 +45,65 @@
       return {
         auth: {
           email: '',
-          password: ''
+          password: '',
+          error: false,
+          has_error: '',
+          success: false
         }
       }
     },
 
     methods: {
-      async authorize() {
+      authorize() {
         const redirect = this.$auth.redirect();
         const app = this;
 
-        const response = await this.$auth.login({
+        console.log(this.$auth);
+
+        this.$auth.login({
           data: {
-            email: this.auth.email,
-            password: this.auth.password
-          }
-        });
-        console.log(response);
-        // const response = await axios.post(`/auth/login`, this.auth);
+            email: app.auth.email,
+            password: app.auth.password
+          },
+          success: function(res) {
+            console.log(res);
+            switch (res.data.status) {
+              case 'success':
+                break;
 
-        console.log(response.data);
-
-        switch (response.data.status) {
-          case 'success':
-            this.$router.push({name: 'AdminDocs'});
-            this.$swal('Успешно!', response.data.msg, 'success');
-            break;
-
-          case 'error':
-            this.showErrorSwal(response.data.error);
-            break;
-        }
+              case 'error':
+                this.showErrorSwal(res.response.data.error);
+                return false;
+            }
+            app.success = true;
+            const redirectTo = '/admin';
+            this.$router.push({path: redirectTo});
+          },
+          error: function(res) {
+            this.showErrorSwal(res.response.data.error);
+            app.has_error = true;
+            app.error = res.response.data.error;
+          },
+          rememberMe: true,
+             // app.error = response;
+          fetchUser: true
+        })
+      // .then((response) => {
+      //     console.log(response.data);
+      //     switch (response.data.status) {
+      //       case 'success':
+      //         app.success = true;
+      //         this.$router.push({name: 'AdminDocs'});
+      //         break;
+      //
+      //       case 'error':
+      //         this.showErrorSwal(response.data.error);
+      //         app.has_error = true;
+      //         console.log(response, 'error');
+      //         app.error = response;
+      //         return false;
+      //     }
+      //   });
       }
     }
   }

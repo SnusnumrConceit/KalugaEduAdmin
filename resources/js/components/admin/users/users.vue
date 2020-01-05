@@ -39,7 +39,7 @@
                         </span>
                     </td>
                     <td>
-                        <span v-if="user.role !== null">
+                        <span v-if="user.role !== null && user.role.length">
                             {{ user.role[0].name }}
                         </span>
                         <span v-else>
@@ -140,6 +140,7 @@
 
     methods: {
       async loadData() {
+        $('.spinner-block').removeClass('d-none');
         const response = await axios.get('/users', {
           params: {
             page: this.pagination.page
@@ -148,11 +149,13 @@
 
         switch (response.status) {
           case 200:
+            $('.spinner-block').addClass('d-none');
             this.users = response.data.users.data;
             this.pagination.last_page = response.data.users.last_page;
             break;
 
           default:
+            $('.spinner-block').addClass('d-none');
             console.error(response.data);
             this.showErrorSwal(response.data.error);
             break;
