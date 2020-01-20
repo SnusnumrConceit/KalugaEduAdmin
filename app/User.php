@@ -9,10 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Kodeine\Acl\Traits\HasRole;
+use Laravel\Airlock\HasApiTokens;
 
 class User extends Authenticatable implements JWTSubject, CanResetPassword, MustVerifyEmail
 {
-    use Notifiable, HasRole;
+    use Notifiable, HasRole, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

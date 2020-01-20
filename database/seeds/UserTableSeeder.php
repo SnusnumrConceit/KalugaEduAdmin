@@ -12,6 +12,11 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class, 20)->create();
+//        factory(User::class, 20)->create();
+        User::create([
+            'login' => 'admin',
+            'email' => 'kaluga_edu@admin.ru',
+            'password' => 'kaluga'
+        ])->assignRole('admin');
     }
 }

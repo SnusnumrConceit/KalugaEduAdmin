@@ -28,7 +28,7 @@ export const routes = [
   {
     path: '/',
     name: 'UI',
-    component: UI,
+    component: Dashboard,
     meta: {
       auth: false
     }
