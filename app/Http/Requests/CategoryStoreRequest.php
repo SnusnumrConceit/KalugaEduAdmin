@@ -39,7 +39,7 @@ class CategoryStoreRequest extends FormRequest
         throw (new ValidationException($validator, response()->json([
             'status' => 'error',
             'msg'    => __('form_request_invalid_data_msg'),
-            'errors' => $validator->errors()
+            'error' => $validator->errors()
         ])));
     }
 

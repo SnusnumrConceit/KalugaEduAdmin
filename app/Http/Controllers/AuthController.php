@@ -37,7 +37,7 @@ class AuthController extends Controller
         $is_auth = auth()->attempt(['email' => $request->email, 'password' => $request->password]);
 
         if  (! $is_auth || ! Hash::check($request->password, $user->password)) {
-            throw new ServiceException('Неверные данные');
+            throw new ServiceException('Неверные данные', 500);
         }
 
         return $this->token($user);
@@ -52,6 +52,39 @@ class AuthController extends Controller
             'token' => $token
         ], 200)->header('Authorization', $token);
     }
+
+    /** метод отправки ссылки обнулирования пароля */
+    public function sendPasswordResetLink(Request $request)
+    {
+        return $this->sendResetLinkEmail($request);
+    }
+
+    /**
+     * Get the response for a successful password reset link.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetLinkResponse(Request $request, $response)
+    {
+        return response()->json([
+            'message' => 'Password reset email sent.',
+            'data' => $response
+        ]);
+    }
+    /**
+     * Get the response for a failed password reset link.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetLinkFailedResponse(Request $request, $response)
+    {
+        return response()->json(['message' => 'Email could not be sent to this email address.']);
+    }
+
 //
 //    /** Регистрация пользователя в системе */
 //    public function register(UserStoreRequest $request) : JsonResponse

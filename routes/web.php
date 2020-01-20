@@ -28,6 +28,12 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('user', 'AuthController@user');
 
             Route::post('logout', 'AuthController@logout');
+
+            // Send reset password mail
+            Route::post('reset-password', 'AuthController@sendPasswordResetLink');
+
+            // handle reset password form process
+            Route::post('reset/password', 'AuthController@callResetPassword');
         });
     });
 });

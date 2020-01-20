@@ -49,7 +49,7 @@
         </div>
         <div class="form-group" v-if="roles.length">
             <label for="">
-                Роли
+                Роли <sup>*</sup>
             </label>
             <v-select :reduce="role => role.id"
                       v-model="user.role[0].id"

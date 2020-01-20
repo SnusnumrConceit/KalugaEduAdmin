@@ -146,6 +146,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'url'                   => 'Document',
+        'role.*.id'             => 'Role'
+    ],
 
 ];

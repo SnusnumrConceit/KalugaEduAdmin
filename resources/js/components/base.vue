@@ -29,6 +29,8 @@
         if (this.$route.name === 'Login') {
           return 'login';
         }
+
+        console.log(this.$auth.user().user !== undefined && this.$auth.user().user.roles[0].slug === 'admin');
         return (this.isAdminRoute && this.$auth.user().user !== undefined && this.$auth.user().user.roles[0].slug === 'admin')
           ? 'admin'
           : 'dashboard';
@@ -41,12 +43,12 @@
       }
     },
 
-    created() {
+    beforeMount() {
       console.log(this.$auth.user().user);
       if (this.$auth.user().user === undefined) {
         let app = this;
         this.$auth.fetch({
-          url: `admin/auth/user`,
+          url: `auth/user`,
           method: 'GET',
           enabled: false,
           success: function (res) {
