@@ -12,6 +12,19 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Role::class)->create();
+//        factory(Role::class)->create();
+        Role::firstOrCreate([
+            'name' => 'Администратор',
+            'slug' => 'admin',
+            'description' => 'администратор системы'
+        ])->assignPermission(['users', 'categories', 'documents']);
+
+        Role::firstOrCreate([
+            'name' => 'Модератор',
+            'slug' => 'moder',
+            'description' => 'модератор'
+        ])->assignPermission(['categories', 'documents']);
+
+
     }
 }
