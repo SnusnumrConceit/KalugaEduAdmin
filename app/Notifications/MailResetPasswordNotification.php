@@ -2,25 +2,25 @@
 
 namespace App\Notifications;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-use Illuminate\Auth\Notifications\ResetPassword;
-
-class MailResetPasswordNotification extends ResetPassword
+class MailResetPasswordNotification extends Notification
 {
     use Queueable;
 
+    protected $user;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct(User $user)
     {
-        parent::__construct($token);
+        $this->user = $user;
     }
 
     /**
@@ -42,12 +42,13 @@ class MailResetPasswordNotification extends ResetPassword
      */
     public function toMail($notifiable)
     {
-        $link = url( "/admin/reset-password/".$this->token );
         return (new MailMessage)
-            ->subject( 'Уведомление сброса пароля' )
-            ->line( "Здравствуйте! Данное сообщение содержит информацию о сбросе пароля для пользователя." )
-            ->action( 'Сбросить пароль', $link )
-            ->line( "Ссылка для сброса пароля истекает через ".config('auth.passwords.users.expire')." минут" );
+                    ->greeting('Добрый день!')
+                    ->subject('Уведомление о Сбросе пароля')
+                    ->line('Для пользователя ' . $this->user->email . " был изменён пароль")
+                    ->action('Проверить данные', url('/admin/users/' . $this->user->id))
+                    ->salutation('С уважением, 
+                    Администрация Калужского Муниципального образования Фёдоровского Муниципального района Саратовской области');
     }
 
     /**

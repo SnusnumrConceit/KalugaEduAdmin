@@ -7,6 +7,7 @@ use App\Exceptions\ServiceException;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UserStoreRequest;
+use App\Notifications\MailResetPasswordNotification;
 use App\Services\UserService;
 use App\User;
 use Illuminate\Auth\Events\PasswordReset;
@@ -17,9 +18,11 @@ use Illuminate\Support\Str;
 
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Notifications\Notifiable;
 
 class AuthController extends Controller
 {
+    use Notifiable;
 
     use SendsPasswordResetEmails, ResetsPasswords {
         SendsPasswordResetEmails::broker insteadof ResetsPasswords;
@@ -98,9 +101,11 @@ class AuthController extends Controller
             'password' => bcrypt($request->password_confirmation)
         ]);
 
+        $user->notify(new MailResetPasswordNotification($user));
+
         return response()->json([
             'status' => 'success',
-            'msg' => "Пароль для пользователя $user->email"
+            'msg' => "Пароль для пользователя " . $user['email']
         ]);
     }
 

@@ -18,7 +18,7 @@
                             Документы
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="$auth.user().user.roles[0].slug === 'admin'">
                         <router-link :to="{ name: 'AdminUsers'}" :class="'nav-link'">
                             Пользователи
                         </router-link>
