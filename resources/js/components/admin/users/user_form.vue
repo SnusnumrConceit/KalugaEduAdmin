@@ -42,7 +42,7 @@
                        v-model="user.password_confirmation">
             </div>
         </div>
-        <div class="form-group" @click="$emit('show_reset_password_form')" v-else>
+        <div class="form-group" @click="toResetForm" v-else>
             <button class="btn btn-outline-primary">
                 Сбросить пароль
             </button>
@@ -71,7 +71,7 @@
             </button>
         </div>
 
-        <reset-password></reset-password>
+        <!--<reset-password></reset-password>-->
     </div>
 </template>
 
@@ -177,6 +177,17 @@
           }
         }
       },
+
+      toResetForm() {
+        this.$router.push({
+          name: 'reset-password-form',
+          params: {
+            email: this.user.email,
+            token: localStorage.getItem('laravel-jwt-auth')
+          }
+        });
+        // this.$emit('show_reset_password_form');
+      }
     },
 
     created() {

@@ -12,10 +12,23 @@ import Dashboard from './components/dashboard/dashboard';
 import CategoryDocuments from './components/dashboard/category_documents';
 
 import Login from './components/base/auth/login';
+import ResetPasswordForm from './components/admin/resetPasswordForm';
 
 import Admin from './components/admin/admin';
 import UI from './components/dashboard/index';
 
+
+const checkExisting = (to, from, next) => {
+  let token = localStorage.getItem('laravel-jwt-auth');
+
+  if (! token) {
+    next('/dashboard');
+  }
+
+  next();
+  return;
+
+}
 export const routes = [
   // {
   //   path: '/admin',
@@ -31,7 +44,8 @@ export const routes = [
     component: Dashboard,
     meta: {
       auth: false
-    }
+    },
+    redirect: '/dashboard'
   },
   {
     path: '/dashboard',
@@ -140,5 +154,15 @@ export const routes = [
     meta: {
       auth: true
     }
+  },
+
+  {
+    path: '/admin/reset-password',
+    name: 'reset-password-form',
+    component: ResetPasswordForm,
+    meta: {
+      auth:true
+    }
   }
+
 ];

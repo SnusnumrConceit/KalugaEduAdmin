@@ -30,15 +30,13 @@
           return 'login';
         }
 
-        console.log(this.$auth.user().user !== undefined && this.$auth.user().user.roles[0].slug === 'admin');
-        return (this.isAdminRoute && this.$auth.user().user !== undefined && this.$auth.user().user.roles[0].slug === 'admin')
+        return (this.isAdminRoute && this.$auth.user().user !== undefined && this.$auth.user().user.roles[0].slug === 'admin' || localStorage.getItem('laravel-jwt-auth'))
           ? 'admin'
           : 'dashboard';
       },
 
       isAdminRoute() {
         const regex = /[admin]/;
-        console.log(regex.test(this.$route.name));
         return regex.test(this.$route.name);
       }
     },
@@ -48,7 +46,7 @@
       if (this.$auth.user().user === undefined) {
         let app = this;
         this.$auth.fetch({
-          url: `auth/user`,
+          url: `/admin/auth/user`,
           method: 'GET',
           enabled: false,
           success: function (res) {

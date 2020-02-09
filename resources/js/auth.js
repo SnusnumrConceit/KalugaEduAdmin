@@ -25,33 +25,33 @@ const config = {
 
   /** API Auth Methods **/
   registerData: {
-    url: `auth/register`,
+    url: `/auth/register`,
     method: 'POST',
     redirect: 'admin/login'
   },
 
   loginData: {
-    url: `auth/login`,
+    url: `/admin/auth/login`,
     method: 'POST',
-    redirect: 'admin/categories',
+    redirect: '/admin/categories',
     fetchUser: false
   },
 
   logoutData: {
-    url: `admin/auth/logout`,
+    url: `/admin/auth/logout`,
     method: 'POST',
     redirect: '/dashboard',
     makeRequest: true
   },
 
   fetchData: {
-    url: `auth/user`,
+    url: `/admin/auth/user`,
     method: 'GET',
     enabled: false
   },
 
   refreshData: {
-    url: `admin/auth/refresh`,
+    url: `/admin/auth/refresh`,
     method: 'GET',
     enabled: false,
     interval: 30

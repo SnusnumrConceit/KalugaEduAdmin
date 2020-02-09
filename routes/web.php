@@ -16,9 +16,15 @@
 });*/
 
 //Auth::routes();
+
+// Send reset password mail
+Route::post('reset-password', 'AuthController@sendPasswordResetLink');
+
+// handle reset password form process
+//Route::post('reset/password', 'AuthController@callResetPassword');
+
 Route::group(['prefix' => 'admin'], function () {
     Route::group(['prefix' => 'auth'], function () {
-        Route::post('register', 'AuthController@register');
 
         Route::post('login', 'AuthController@login');
 
@@ -29,11 +35,15 @@ Route::group(['prefix' => 'admin'], function () {
 
             Route::post('logout', 'AuthController@logout');
 
-            // Send reset password mail
-            Route::post('reset-password', 'AuthController@sendPasswordResetLink');
+            Route::post('register', 'AuthController@register');
 
-            // handle reset password form process
-            Route::post('reset/password', 'AuthController@callResetPassword');
+            Route::post('reset/password', 'AuthController@customResetPassword');
+
+//            // Send reset password mail
+//            Route::post('reset-password', 'AuthController@sendPasswordResetLink');
+//
+//            // handle reset password form process
+//            Route::post('reset/password', 'AuthController@callResetPassword');
         });
     });
 });

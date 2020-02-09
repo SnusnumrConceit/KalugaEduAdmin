@@ -5,9 +5,10 @@
         <div class="col-8 col-md-8 col-lg-10 bg-light">
             <div class="row col-12 flex-row-reverse">
                 <div class="pull-right">
-                    <span v-if="this.$auth.user() !== undefined" @click="logout()">
-                        Выйти
+                    <span v-if="this.$auth.user() !== undefined">
                         {{ $auth.user().user.email}}
+
+                        <a class="btn btn-link" @click.prevent="logout()">Выйти</a>
                     </span>
                 </div>
             </div>
@@ -31,7 +32,6 @@
     methods: {
       logout() {
         if (this.$route.name !== 'Admin') {
-          console.log(this.$route.name);
           this.$auth.logout({
             url: `auth/logout`,
             method: 'POST',

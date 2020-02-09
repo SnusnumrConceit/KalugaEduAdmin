@@ -8,7 +8,7 @@
                 <label for="">
                     Введите Email
                 </label>
-                <input type="password" class="form-control" v-model="email">
+                <input type="text" class="form-control" v-model="email">
             </div>
         </div>
         <div class="modal-footer">
@@ -37,7 +37,7 @@
 
     methods: {
       async reset() {
-        const response = await axios.post('/reset', this.email);
+        const response = await axios.post('/reset-password', {'email': this.email});
 
         switch (response.data.status) {
           case 'success':

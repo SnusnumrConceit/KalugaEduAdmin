@@ -157,7 +157,7 @@ return [
     |
     */
     'attributes' => [
-        'name'                  => 'Имя',
+        'name'                  => 'Название',
         'login'                 => 'Логин',
         'email'                 => 'E-Mail адрес',
         'first_name'            => 'Имя',

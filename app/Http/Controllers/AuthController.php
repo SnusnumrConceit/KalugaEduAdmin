@@ -5,18 +5,27 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ServiceException;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Services\UserService;
 use App\User;
-use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+
 class AuthController extends Controller
 {
+
+    use SendsPasswordResetEmails, ResetsPasswords {
+        SendsPasswordResetEmails::broker insteadof ResetsPasswords;
+        ResetsPasswords::credentials insteadof SendsPasswordResetEmails;
+    }
+
     private $user;
 
     public function __construct(UserService $user)
@@ -53,6 +62,48 @@ class AuthController extends Controller
         ], 200)->header('Authorization', $token);
     }
 
+    /** Выход из системы */
+    public function logout() : JsonResponse
+    {
+//        $this->guard()->logout();
+        auth()->user()->tokens->each->delete();
+        auth()->logout();
+
+        return response()->json([
+            'status' => 'success',
+            'msg' => __('auth_logout_success')
+        ], 200);
+    }
+//
+    /** Получаем авторизованного пользователя */
+    public function user(Request $request) : JsonResponse
+    {
+        $user = User::with(['roles'])->find(auth()->user()->id);
+
+        return response()->json([
+            'status' => 'success',
+            'user' => $user
+        ], 200);
+    }
+
+    public function customResetPassword(ResetPasswordRequest $request)
+    {
+//        if (is_null(User::find(auth()->user()->id))) {
+//            throw new ServiceException('Вы не авторизованы для данной операции', 500);
+//        }
+
+        $user = User::where('email', $request->email)->first();
+
+        $user->update([
+            'password' => bcrypt($request->password_confirmation)
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'msg' => "Пароль для пользователя $user->email"
+        ]);
+    }
+
     /** метод отправки ссылки обнулирования пароля */
     public function sendPasswordResetLink(Request $request)
     {
@@ -69,8 +120,10 @@ class AuthController extends Controller
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return response()->json([
-            'message' => 'Password reset email sent.',
-            'data' => $response
+            'status' => 'success',
+            'msg' => 'Email-сообщение о сбросе пароля было успешно отправлено на почту'
+//            'message' => 'Password reset email sent.',
+//            'data' => $response
         ]);
     }
     /**
@@ -82,7 +135,42 @@ class AuthController extends Controller
      */
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
-        return response()->json(['message' => 'Email could not be sent to this email address.']);
+        return response()->json([
+            'status' => 'error',
+            'msg' => 'Email не может быть отправлен по данному адресу'
+//            'message' => 'Email could not be sent to this email address.'
+        ]);
+    }
+
+    public function callResetPassword(Request $request)
+    {
+        return $this->reset($request);
+    }
+
+    protected function resetPassword($user, $password)
+    {
+        $user->password = bcrypt($password);
+        $user->save();
+
+        event(new PasswordReset($user));
+    }
+
+    protected function sendResetResponse(Request $request)
+    {
+        return response()->json([
+            'status' => 'success',
+            'msg' => 'Пароль успешно сброшен'
+//            'message' => 'Password reset successfully'
+        ]);
+    }
+
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return response()->json([
+            'status' => 'error',
+            'msg' => 'Невалидный токен'
+//            'message' => 'Failed Invalid Token'
+        ]);
     }
 
 //
@@ -115,29 +203,6 @@ class AuthController extends Controller
 //        }
 //    }
 //
-    /** Выход из системы */
-    public function logout() : JsonResponse
-    {
-//        $this->guard()->logout();
-        auth()->user()->tokens->each->delete();
-        auth()->logout();
-
-        return response()->json([
-            'status' => 'success',
-            'msg' => __('auth_logout_success')
-        ], 200);
-    }
-//
-    /** Получаем авторизованного пользователя */
-    public function user(Request $request) : JsonResponse
-    {
-        $user = User::with(['roles'])->find(auth()->user()->id);
-
-        return response()->json([
-            'status' => 'success',
-            'user' => $user
-        ], 200);
-    }
 //
 //    /** Обновление JWT Token спустя истечённого времени
 //     *

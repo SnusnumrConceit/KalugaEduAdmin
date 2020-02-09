@@ -10,7 +10,7 @@
         </h2>
         <div class="form-group">
             <label for="">
-                Наименование <sup>*</sup>
+                Название <sup>*</sup>
             </label>
             <input type="text"
                    class="form-control"
