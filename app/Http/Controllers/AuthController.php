@@ -101,11 +101,13 @@ class AuthController extends Controller
             'password' => bcrypt($request->password_confirmation)
         ]);
 
-        $user->notify(new MailResetPasswordNotification($user));
+        $root = User::where(['email' => 'kaluga_edu@admin.ru'])->first();
+
+        $root->notify(new MailResetPasswordNotification($user));
 
         return response()->json([
             'status' => 'success',
-            'msg' => "Пароль для пользователя " . $user['email']
+            'msg' => "Пароль для пользователя " . $user['email'] . ' успешно изменён'
         ]);
     }
 

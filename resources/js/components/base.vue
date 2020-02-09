@@ -53,7 +53,13 @@
             app.$auth.user(res.data);
           },
           error: function (res) {
-            app.$swal('Ошибка!', res.response.data.msg, 'error');
+            // app.$swal('Ошибка!', res.response.data.msg, 'error');
+            console.error(res.response.data.msg);
+
+            if (res.response.status === 400 && localStorage.getItem('laravel-jwt-auth')) {
+              localStorage.removeItem('laravel-jwt-auth');
+            }
+
             app.$router.push({name: 'Dashboard'});
           }
         });
