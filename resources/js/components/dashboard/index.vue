@@ -4,7 +4,7 @@
 
         </categories>
 
-        <div class="col-md-8 col-lg-10 bg-light">
+        <div class="col-md-8 col-lg-8 bg-light">
             <router-view :key="$route.params.id"></router-view>
         </div>
     </div>

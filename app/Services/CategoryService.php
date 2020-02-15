@@ -83,7 +83,7 @@ class CategoryService
     {
         $categories = Category::when(! empty($request->keyword), function ($q) use ($request) {
            return $q->where('name', 'LIKE', $request->keyword . '%');
-        })->paginate();
+        })->with('parent')->paginate();
 
         return response()->json([
             'categories' => $categories

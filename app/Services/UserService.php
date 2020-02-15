@@ -120,7 +120,7 @@ class UserService
         $users = User::when(! empty($request->keyword), function ($q) use ($request) {
             $q->where('login', 'LIKE', '%' . $request->keyword . '%')
                 ->OrWhere('email', 'LIKE', '%' . $request->keyword . '%');
-        })->paginate();
+        })->with('role')->paginate();
 
         return response()->json([
             'users' => $users

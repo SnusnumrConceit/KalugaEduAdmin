@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-4 col-lg-2 navbar-container bg-light">
+    <div class="col-md-4 col-lg-4 navbar-container bg-light">
         <nav class="navbar navbar-expand-md navbar-light">
             <a class="navbar-brand" href="#">Административая панель</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
