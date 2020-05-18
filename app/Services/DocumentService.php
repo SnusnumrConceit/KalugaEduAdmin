@@ -11,6 +11,7 @@ namespace App\Services;
 
 
 use App\Http\Requests\DocumentStoreRequest;
+use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -66,7 +67,9 @@ class DocumentService
      */
     public function show(Document $document) : JsonResponse
     {
-        //
+        return response()->json([
+            'document' => new DocumentResource($document->load('category'))
+        ], 200);
     }
 
     /**

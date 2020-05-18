@@ -26,7 +26,7 @@
                         <td>
                             <!-- по клику вызывать модалку -->
                             <span>
-                                <button class="btn btn-outline-default"
+                                <button class="btn btn-outline-default text-justify"
                                         @click.prevent="download(doc.name, doc.url)">
                                     <i class="fas fa-file-word"></i> {{ doc.name }}
                                 </button>
@@ -75,7 +75,10 @@
                       :click-handler="switchPage">
 
             </paginate>
+
+            <DocumentModal />
         </div>
+
         <div class="alert alert-info mt-4" v-else>
             Не найдено ни одного документа
         </div>
@@ -87,6 +90,7 @@
   import debounce from '../../../debounce';
   import swal_error from '../../../mixins/swal';
   import doc_download from '../../../mixins/doc_download';
+  import DocumentModal from './DocumentModal';
 
   export default {
     name: "documents",
@@ -95,6 +99,10 @@
       swal_error,
       doc_download
     ],
+
+    components: {
+      DocumentModal
+    },
 
     data() {
       return {

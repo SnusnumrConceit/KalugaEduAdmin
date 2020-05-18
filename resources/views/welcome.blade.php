@@ -84,6 +84,7 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
+                z-index: 3;
                 color: #fff;
                 background: #000000;
             }
