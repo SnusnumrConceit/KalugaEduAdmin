@@ -46,7 +46,7 @@
                     <!-- Исправить на router-link -->
                     <div class="row" v-for="(doc, index) in category.documents" :key="doc.id">
                         <div class="col-10">
-                        <button class="btn btn-outline-default" @click.prevent="download(doc.name, doc.url)">
+                        <button class="btn btn-outline-default text-justify" @click.prevent="download(doc.name, doc.url)">
                             <i class="fas fa-file-word"></i> {{ doc.name }}
                         </button>
                         </div>

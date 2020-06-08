@@ -3,7 +3,7 @@
         <h2>{{ category.name }}</h2>
         <div class="document-section" v-if="documents.length">
             <div v-for="(doc, index) in documents" :key="doc.id">
-                <button class="btn btn-outline-default"
+                <button class="btn btn-outline-default text-justify"
                         @click.prevent="download(doc.name, doc.url)">
                     <i class="fas fa-file-word"></i> {{ doc.name }}
                 </button>
